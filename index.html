@@ -266,8 +266,6 @@ body{font-family:'Montserrat',sans-serif;background:var(--primary);color:#fff;ov
 .storage-indicator{position:fixed;top:80px;right:20px;background:var(--glass);border:1px solid var(--glass2);padding:.5rem 1rem;border-radius:20px;font-size:.75rem;z-index:999;backdrop-filter:blur(10px)}
 .storage-indicator supabase{border-color:#10b981;color:#10b981}
 .storage-indicator.local{border-color:#f59e0b;color:#f59e0b}
-.stat-edit-btn{position:absolute;top:.5rem;right:.5rem;width:28px;height:28px;background:rgba(251,191,36,0.9);border:none;color:var(--dark);border-radius:50%;cursor:pointer;font-size:.8rem;display:none;align-items:center;justify-content:center;z-index:5}
-.stat.admin-mode .stat-edit-btn{display:flex}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeInDown{from{opacity:0;transform:translateY(-30px)}to{opacity:1;transform:translateY(0)}}
@@ -321,7 +319,6 @@ body{font-family:'Montserrat',sans-serif;background:var(--primary);color:#fff;ov
 <div class="scroll-indicator"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
 </section>
 
-<!-- ✅ SECCIÓN HISTORIA DINÁMICA -->
 <section class="section section-alt" id="historia">
 <div class="container">
 <div class="section-header fade-in" id="historiaHeader">
@@ -457,7 +454,6 @@ body{font-family:'Montserrat',sans-serif;background:var(--primary);color:#fff;ov
 </div>
 </div>
 
-<!-- ✅ MODAL EDITAR SECCIÓN INICIO/HISTORIA -->
 <div class="modal-overlay" id="editHomeSectionModal">
 <div class="modal modal-xl">
 <button class="modal-close" onclick="closeEditHomeSection()">✕</button>
@@ -524,7 +520,7 @@ body{font-family:'Montserrat',sans-serif;background:var(--primary);color:#fff;ov
 <p class="modal-subtitle">Modificá la información de contacto</p>
 <form onsubmit="saveContactItem(event)" novalidate>
 <input type="hidden" id="contactItemId">
-<div class="form-group"><label>Ícono (emoji)</label><input type="text" id="contactItemIcon" placeholder="Ej: 📍 📱 🌐" maxlength="4"></div>
+<div class="form-group"><label>Ícono (emoji)</label><input type="text" id="contactItemIcon" placeholder="Ej: 📍 📱 " maxlength="4"></div>
 <div class="form-group"><label>Título *</label><input type="text" id="contactItemTitleField" required placeholder="Ej: Ubicación"><div class="form-error" id="errContactItemTitle">El título es obligatorio</div></div>
 <div class="form-group"><label>Contenido *</label><input type="text" id="contactItemContent" required placeholder="Ej: Paraná, Entre Ríos"><div class="form-error" id="errContactItemContent">El contenido es obligatorio</div></div>
 <button type="submit" class="btn btn-primary btn-full">💾 Guardar</button>
@@ -569,15 +565,7 @@ body{font-family:'Montserrat',sans-serif;background:var(--primary);color:#fff;ov
 </div>
 <div class="admin-content">
 <div class="admin-section active" id="tab-home">
-<div class="help-box">
-<h4>🏠 Gestión de la sección Historia</h4>
-<ul>
-<li>Editá el título, subtítulo y textos</li>
-<li>Cambiá la imagen del bloque</li>
-<li>Modificá las 3 estadísticas</li>
-<li>Los cambios se reflejan inmediatamente</li>
-</ul>
-</div>
+<div class="help-box"><h4>🏠 Gestión de la sección Historia</h4><ul><li>Editá el título, subtítulo y textos</li><li>Cambiá la imagen del bloque</li><li>Modificá las 3 estadísticas</li><li>Los cambios se reflejan inmediatamente</li></ul></div>
 <button class="btn-add" onclick="openEditHomeSection()">✏️ Editar sección Historia</button>
 </div>
 <div class="admin-section" id="tab-albums">
@@ -615,27 +603,35 @@ body{font-family:'Montserrat',sans-serif;background:var(--primary);color:#fff;ov
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-/*agrupacion larramendi */
+/* ============================================================
+   CREDENCIALES DE SUPABASE
+   ============================================================ */
 const SUPABASE_URL = 'https://osqiwfuzagmbxaxqkhar.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9zcWl3ZnV6YWdtYnhheHFraGFyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExNTIwMTcsImV4cCI6MjA5NjcyODAxN30.8syvRkFMHsbu_K3O092LCpZ-MbGn7q_VLmQ1wIxpRO4';
-
-const SUPABASE_ENABLED = SUPABASE_URL !== 'https://TU-PROYECTO.supabase.co' && SUPABASE_KEY !== 'TU-CLAVE-PUBLICA-AQUI';
-
-/* menguedemonte
-const SUPABASE_URL = 'https://ngfgghnrfjjimfpuytfr.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5nZmdnaG5yZmpqaW1mcHV5dGZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5MTE1MDgsImV4cCI6MjA5NjQ4NzUwOH0.XR03HSiIta1P2LxeDw1by-lBGotjzAj_tvO30foLjg0';
-const SUPABASE_ENABLED = SUPABASE_URL !== 'https://TU-PROYECTO.supabase.co' && SUPABASE_KEY !== 'TU-CLAVE-PUBLICA-AQUI';
-*/
-
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9zcWl3ZnV6YWdtYnhheHFraGFyIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MTE1MjAxNywiZXhwIjoyMDk2NzI4MDE3fQ.iYlQQUFqUC6WRKD9lozuKZ6gTaMG7uCILiCmssHCNFs';
 
 let supabaseClient = null;
-if (SUPABASE_ENABLED) {
-  try { supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY); console.log('✅ Supabase conectado'); } catch(e) { console.error('Error Supabase:', e); }
+let SUPABASE_DB_ENABLED = false;
+
+try {
+  supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  console.log('✅ Cliente Supabase creado');
+  
+  supabaseClient.from('albums').select('count').then(function(result) {
+    if (result.error) {
+      console.error('❌ Error DB:', result.error.message);
+      console.log('⚠️ Usando localStorage como fallback');
+    } else {
+      SUPABASE_DB_ENABLED = true;
+      console.log('✅ Base de datos conectada. Álbumes:', result.count);
+      loadFromDatabase();
+    }
+  });
+} catch(e) {
+  console.error('Error:', e);
 }
 
 const CONTACT_EMAIL = 'larramendifutbolveteranos@gmail.com';
 
-// ✅ DATOS POR DEFECTO DE LA SECCIÓN HISTORIA
 const DEFAULT_HOME_SECTION = {
   label: 'Nuestra Historia',
   title: 'Tradición y *Pasión*',
@@ -664,36 +660,17 @@ const DEFAULT_FORM_FIELDS = [
 ];
 
 const TEAM_IMAGE = 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1920';
-const ICONS = ['⚽','','🎉','','⭐','👥','🎯','🏟️','📸','🎊','🤝','🥅','💪','🏅','🎖️','🏆'];
-
-const DEFAULT_ALBUMS = [
-  {id:1,title:'Fotos Históricas',desc:'Imágenes que recorren la historia de Larramendi desde su fundación en 1989.',date:'Desde 1989',url:TEAM_IMAGE,photos:[
-    {id:101,title:'Fundación del club',date:'16 de Enero de 1989',url:TEAM_IMAGE},
-    {id:102,title:'Primer plantel',date:'Años 90',url:'https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=800'},
-    {id:103,title:'Cancha original',date:'Años 90',url:'https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800'}
-  ]},
-  {id:2,title:'Torneo 2025',desc:'Los mejores momentos del torneo regional de este año.',date:'2025',url:'https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=800',photos:[
-    {id:201,title:'Apertura del torneo',date:'Marzo 2025',url:'https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=800'},
-    {id:202,title:'Semifinal',date:'Agosto 2025',url:'https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800'},
-    {id:203,title:'Final y premiación',date:'Octubre 2025',url:'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800'}
-  ]},
-  {id:3,title:'Asados y Reuniones',desc:'Los momentos más divertidos fuera de la cancha.',date:'Todo el año',url:'https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800',photos:[
-    {id:301,title:'Asado de primavera',date:'Septiembre 2025',url:'https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800'},
-    {id:302,title:'Fiesta de fin de año',date:'Diciembre 2024',url:'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800'}
-  ]}
-];
-
-const DEFAULT_PAGES = [
-  {id:1,title:'Nuestro Equipo',header:'Conocé a nuestro plantel',desc:'Conocé a los jugadores que forman parte de la Agrupación de Veteranos Larramendi.\n\nLos entrenamientos son martes y jueves a las 18:00 hs en la cancha municipal.',icon:'⚽',date:'Desde 1989',url:TEAM_IMAGE,gallery:[]},
-  {id:2,title:'Torneos y Competencias',header:'Nuestras competencias',desc:'Participamos activamente en torneos locales y regionales de fútbol veterano.',icon:'🏆',date:'Temporada 2025',url:'https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=800',gallery:[]},
-  {id:3,title:'Eventos Sociales',header:'Más allá de la cancha',desc:'Más allá de la cancha, somos una comunidad.',icon:'🎉',date:'Todo el año',url:'https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800',gallery:[]},
-  {id:4,title:'Historia del Club',header:'Nuestra trayectoria',desc:'Desde nuestra fundación el 16 de enero de 1989, hemos construido una tradición de compañerismo y deporte.',icon:'📖',date:'16 de Enero de 1989',url:'https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=800',gallery:[]}
-];
+const ICONS = ['⚽','','🎉','','⭐','👥','','🏟️','','🎊','','🥅','','🏅','️'];
 
 let state = {
   homeSection: JSON.parse(localStorage.getItem('larr_home_section')) || DEFAULT_HOME_SECTION,
-  albums: JSON.parse(localStorage.getItem('larr_albums')) || DEFAULT_ALBUMS,
-  pages: JSON.parse(localStorage.getItem('larr_pages')) || DEFAULT_PAGES,
+  albums: [],
+  pages: JSON.parse(localStorage.getItem('larr_pages')) || [
+    {id:1,title:'Nuestro Equipo',header:'Conocé a nuestro plantel',desc:'Conocé a los jugadores.',icon:'⚽',date:'Desde 1989',url:TEAM_IMAGE,gallery:[]},
+    {id:2,title:'Torneos',header:'Nuestras competencias',desc:'Participamos en torneos.',icon:'🏆',date:'2025',url:TEAM_IMAGE,gallery:[]},
+    {id:3,title:'Eventos Sociales',header:'Más allá de la cancha',desc:'Somos una comunidad.',icon:'🎉',date:'Todo el año',url:TEAM_IMAGE,gallery:[]},
+    {id:4,title:'Historia',header:'Nuestra trayectoria',desc:'Desde 1989.',icon:'📖',date:'16 de Enero de 1989',url:TEAM_IMAGE,gallery:[]}
+  ],
   contactItems: JSON.parse(localStorage.getItem('larr_contact_items')) || DEFAULT_CONTACT_ITEMS,
   formFields: JSON.parse(localStorage.getItem('larr_form_fields')) || DEFAULT_FORM_FIELDS,
   heroUrl: localStorage.getItem('larr_hero') || TEAM_IMAGE,
@@ -705,10 +682,53 @@ let state = {
   multiFiles: [], manageMode: false
 };
 
+async function loadFromDatabase() {
+  try {
+    const { data: albumsData, error: albumsError } = await supabaseClient
+      .from('albums')
+      .select('*')
+      .order('id', { ascending: true });
+    
+    if (albumsError) throw albumsError;
+    
+    const albums = [];
+    for (const album of albumsData) {
+      const { data: photosData, error: photosError } = await supabaseClient
+        .from('photos')
+        .select('*')
+        .eq('album_id', album.id)
+        .order('id', { ascending: true });
+      
+      if (photosError) throw photosError;
+      
+      albums.push({
+        id: album.id,
+        title: album.title,
+        desc: album.description || '',
+        url: album.cover_url || TEAM_IMAGE,
+        date: album.date || '',
+        photos: (photosData || []).map(p => ({
+          id: p.id,
+          title: p.title,
+          url: p.url,
+          date: p.date || ''
+        }))
+      });
+    }
+    
+    state.albums = albums;
+    console.log('✅ Álbumes cargados desde DB:', albums.length);
+    render();
+  } catch(err) {
+    console.error('❌ Error cargando desde DB:', err);
+    state.albums = JSON.parse(localStorage.getItem('larr_albums')) || [];
+    render();
+  }
+}
+
 function save() {
   try {
     localStorage.setItem('larr_home_section', JSON.stringify(state.homeSection));
-    localStorage.setItem('larr_albums', JSON.stringify(state.albums));
     localStorage.setItem('larr_pages', JSON.stringify(state.pages));
     localStorage.setItem('larr_contact_items', JSON.stringify(state.contactItems));
     localStorage.setItem('larr_form_fields', JSON.stringify(state.formFields));
@@ -718,47 +738,133 @@ function save() {
   } catch(e) { toast('⚠️ Error: almacenamiento local lleno.', 'error'); return false; }
 }
 
-function updateStorageIndicator() {
-  const indicator = document.getElementById('storageIndicator');
-  if (SUPABASE_ENABLED) { indicator.textContent = '☁️ Supabase Storage (1GB)'; indicator.className = 'storage-indicator supabase'; }
-  else { indicator.textContent = '⚠️ Modo local (5MB límite)'; indicator.className = 'storage-indicator local'; }
+async function saveAlbumToDB(album) {
+  if (!SUPABASE_DB_ENABLED) return false;
+  
+  try {
+    if (album.id && album.id > 0) {
+      const { error } = await supabaseClient
+        .from('albums')
+        .update({
+          title: album.title,
+          description: album.desc,
+          cover_url: album.url,
+          date: album.date
+        })
+        .eq('id', album.id);
+      
+      if (error) throw error;
+    } else {
+      const { data, error } = await supabaseClient
+        .from('albums')
+        .insert({
+          title: album.title,
+          description: album.desc,
+          cover_url: album.url,
+          date: album.date
+        })
+        .select()
+        .single();
+      
+      if (error) throw error;
+      album.id = data.id;
+    }
+    return true;
+  } catch(err) {
+    console.error('Error guardando álbum:', err);
+    return false;
+  }
 }
 
-// ✅ RENDER SECCIÓN HISTORIA DINÁMICA
+async function savePhotoToDB(photo, albumId) {
+  if (!SUPABASE_DB_ENABLED) return false;
+  
+  try {
+    const { data, error } = await supabaseClient
+      .from('photos')
+      .insert({
+        album_id: albumId,
+        title: photo.title,
+        url: photo.url,
+        date: photo.date
+      })
+      .select()
+      .single();
+    
+    if (error) throw error;
+    photo.id = data.id;
+    return true;
+  } catch(err) {
+    console.error('Error guardando foto:', err);
+    return false;
+  }
+}
+
+async function deletePhotoFromDB(photoId) {
+  if (!SUPABASE_DB_ENABLED) return false;
+  
+  try {
+    const { error } = await supabaseClient
+      .from('photos')
+      .delete()
+      .eq('id', photoId);
+    
+    if (error) throw error;
+    return true;
+  } catch(err) {
+    console.error('Error eliminando foto:', err);
+    return false;
+  }
+}
+
+async function deleteAlbumFromDB(albumId) {
+  if (!SUPABASE_DB_ENABLED) return false;
+  
+  try {
+    const { error } = await supabaseClient
+      .from('albums')
+      .delete()
+      .eq('id', albumId);
+    
+    if (error) throw error;
+    return true;
+  } catch(err) {
+    console.error('Error eliminando álbum:', err);
+    return false;
+  }
+}
+
+function updateStorageIndicator() {
+  const indicator = document.getElementById('storageIndicator');
+  if (SUPABASE_DB_ENABLED) { 
+    indicator.textContent = '☁️ Supabase DB + Storage'; 
+    indicator.className = 'storage-indicator supabase'; 
+  } else if (supabaseClient) {
+    indicator.textContent = '☁️ Supabase Storage (sin DB)'; 
+    indicator.className = 'storage-indicator supabase';
+  } else { 
+    indicator.textContent = '⚠️ Modo local (5MB límite)'; 
+    indicator.className = 'storage-indicator local'; 
+  }
+}
+
 function renderHomeSection() {
   const hs = state.homeSection;
-  
-  // Etiqueta y título
   document.getElementById('historiaLabel').textContent = hs.label || 'Nuestra Historia';
-  
-  // Título con parte dorada (usando *texto* para marcar dorado)
   const titleText = hs.title || 'Tradición y *Pasión*';
   const titleParts = titleText.split('*');
   let titleHtml = '';
   titleParts.forEach((part, i) => {
-    if (i % 2 === 1) {
-      titleHtml += '<span class="gold">' + part + '</span>';
-    } else {
-      titleHtml += part;
-    }
+    if (i % 2 === 1) titleHtml += '<span class="gold">' + part + '</span>';
+    else titleHtml += part;
   });
   document.getElementById('historiaTitle').innerHTML = titleHtml;
-  
-  // Subtítulo y párrafos
   document.getElementById('aboutTitle').textContent = hs.aboutTitle || 'Más que un equipo, una familia';
   document.getElementById('aboutP1').textContent = hs.p1 || '';
   document.getElementById('aboutP2').textContent = hs.p2 || '';
-  
-  // Imagen
   const aboutImg = document.getElementById('aboutImg');
-  if (hs.image) {
-    aboutImg.src = hs.image;
-    aboutImg.style.display = 'block';
-  } else {
-    aboutImg.style.display = 'none';
-  }
-  
-  // Estadísticas
+  if (hs.image) { aboutImg.src = hs.image; aboutImg.style.display = 'block'; }
+  else { aboutImg.style.display = 'none'; }
   if (hs.stats && hs.stats.length >= 3) {
     document.getElementById('stat1Num').textContent = hs.stats[0].number;
     document.getElementById('stat1Label').textContent = hs.stats[0].label;
@@ -767,23 +873,14 @@ function renderHomeSection() {
     document.getElementById('stat3Num').textContent = hs.stats[2].number;
     document.getElementById('stat3Label').textContent = hs.stats[2].label;
   }
-  
-  // Mostrar botones de edición solo si admin está logueado
   const header = document.getElementById('historiaHeader');
   const aboutText = document.getElementById('aboutText');
-  if (state.loggedIn) {
-    header.classList.add('admin-mode');
-    aboutText.classList.add('admin-mode');
-  } else {
-    header.classList.remove('admin-mode');
-    aboutText.classList.remove('admin-mode');
-  }
+  if (state.loggedIn) { header.classList.add('admin-mode'); aboutText.classList.add('admin-mode'); }
+  else { header.classList.remove('admin-mode'); aboutText.classList.remove('admin-mode'); }
 }
 
-// ✅ MODAL EDITAR SECCIÓN HISTORIA
 function openEditHomeSection() {
   if (!state.loggedIn) { openLogin(); return; }
-  
   const hs = state.homeSection;
   document.getElementById('homeLabel').value = hs.label || '';
   document.getElementById('homeTitle').value = hs.title || '';
@@ -791,7 +888,6 @@ function openEditHomeSection() {
   document.getElementById('homeP1').value = hs.p1 || '';
   document.getElementById('homeP2').value = hs.p2 || '';
   document.getElementById('homeImageUrl').value = '';
-  
   if (hs.stats && hs.stats.length >= 3) {
     document.getElementById('homeStat1Num').value = hs.stats[0].number;
     document.getElementById('homeStat1Label').value = hs.stats[0].label;
@@ -800,22 +896,18 @@ function openEditHomeSection() {
     document.getElementById('homeStat3Num').value = hs.stats[2].number;
     document.getElementById('homeStat3Label').value = hs.stats[2].label;
   }
-  
-  // Preview de imagen actual
   state.homePendingImage = null;
   state.homeOriginalImage = hs.image || '';
   document.getElementById('homeUploadPreview').style.display = 'none';
   document.getElementById('homeUploadPlaceholder').style.display = 'block';
   document.getElementById('homeUploadZone').classList.remove('has-image');
   document.getElementById('homeFileInput').value = '';
-  
   if (hs.image) {
     document.getElementById('homeUploadPreview').src = hs.image;
     document.getElementById('homeUploadPreview').style.display = 'block';
     document.getElementById('homeUploadPlaceholder').style.display = 'none';
     document.getElementById('homeUploadZone').classList.add('has-image');
   }
-  
   document.querySelectorAll('#editHomeSectionModal .form-error').forEach(function(e) { e.classList.remove('show'); });
   document.getElementById('editHomeSectionModal').classList.add('active');
 }
@@ -854,23 +946,19 @@ function saveHomeSection(e) {
   e.preventDefault();
   if (!state.loggedIn) return;
   document.querySelectorAll('#editHomeSectionModal .form-error').forEach(function(e) { e.classList.remove('show'); });
-  
   const label = document.getElementById('homeLabel').value.trim();
   const title = document.getElementById('homeTitle').value.trim();
   const aboutTitle = document.getElementById('homeAboutTitle').value.trim();
   const p1 = document.getElementById('homeP1').value.trim();
   const p2 = document.getElementById('homeP2').value.trim();
   let image = document.getElementById('homeImageUrl').value.trim();
-  
   if (state.homePendingImage) image = state.homePendingImage;
   if (!image) image = state.homeOriginalImage;
-  
   const stats = [
     { number: document.getElementById('homeStat1Num').value.trim() || '0', label: document.getElementById('homeStat1Label').value.trim() || '' },
     { number: document.getElementById('homeStat2Num').value.trim() || '0', label: document.getElementById('homeStat2Label').value.trim() || '' },
     { number: document.getElementById('homeStat3Num').value.trim() || '0', label: document.getElementById('homeStat3Label').value.trim() || '' }
   ];
-  
   let hasError = false;
   if (!label) { document.getElementById('errHomeLabel').classList.add('show'); hasError = true; }
   if (!title) { document.getElementById('errHomeTitle').classList.add('show'); hasError = true; }
@@ -878,17 +966,10 @@ function saveHomeSection(e) {
   if (!p1) { document.getElementById('errHomeP1').classList.add('show'); hasError = true; }
   if (!p2) { document.getElementById('errHomeP2').classList.add('show'); hasError = true; }
   if (hasError) { toast('Revisá los campos marcados', 'error'); return; }
-  
   state.homeSection = { label, title, aboutTitle, p1, p2, image, stats };
-  
-  if (save()) {
-    renderHomeSection();
-    closeEditHomeSection();
-    toast('✅ Sección Historia actualizada', 'success');
-  }
+  if (save()) { renderHomeSection(); closeEditHomeSection(); toast('✅ Sección Historia actualizada', 'success'); }
 }
 
-// ✅ RENDER CONTACTO
 function renderContactSection() {
   const contactInfo = document.getElementById('contactInfo');
   let contactHtml = state.contactItems.map(function(item) {
@@ -899,16 +980,9 @@ function renderContactSection() {
         '<button class="contact-item-btn delete" onclick="deleteContactItem(' + item.id + ')" title="Eliminar">🗑️</button>' +
       '</div>';
     }
-    return '<div class="contact-item">' +
-      '<div class="contact-item-icon">' + (item.icon || '📌') + '</div>' +
-      '<div><h4>' + item.title + '</h4><p>' + item.content + '</p></div>' +
-      actionsHtml +
-    '</div>';
+    return '<div class="contact-item"><div class="contact-item-icon">' + (item.icon || '📌') + '</div><div><h4>' + item.title + '</h4><p>' + item.content + '</p></div>' + actionsHtml + '</div>';
   }).join('');
-  
-  if (state.loggedIn) {
-    contactHtml += '<div class="contact-add-btn visible" onclick="openEditContactItem()">➕ Agregar dato de contacto</div>';
-  }
+  if (state.loggedIn) contactHtml += '<div class="contact-add-btn visible" onclick="openEditContactItem()">➕ Agregar dato de contacto</div>';
   contactInfo.innerHTML = contactHtml;
 
   const contactForm = document.getElementById('contactForm');
@@ -916,35 +990,18 @@ function renderContactSection() {
     let inputHtml = '';
     const requiredAttr = field.required ? 'required' : '';
     const placeholderAttr = field.placeholder ? 'placeholder="' + field.placeholder + '"' : '';
-    
-    if (field.type === 'textarea') {
-      inputHtml = '<textarea ' + requiredAttr + ' ' + placeholderAttr + '></textarea>';
-    } else if (field.type === 'select') {
-      const options = (field.options || []).map(function(opt) {
-        return '<option value="' + opt + '">' + opt + '</option>';
-      }).join('');
+    if (field.type === 'textarea') inputHtml = '<textarea ' + requiredAttr + ' ' + placeholderAttr + '></textarea>';
+    else if (field.type === 'select') {
+      const options = (field.options || []).map(function(opt) { return '<option value="' + opt + '">' + opt + '</option>'; }).join('');
       inputHtml = '<select ' + requiredAttr + '><option value="">Seleccionar...</option>' + options + '</select>';
-    } else {
-      inputHtml = '<input type="' + field.type + '" ' + requiredAttr + ' ' + placeholderAttr + '>';
-    }
-    
+    } else inputHtml = '<input type="' + field.type + '" ' + requiredAttr + ' ' + placeholderAttr + '>';
     let fieldHeaderHtml = '';
     if (state.loggedIn) {
-      fieldHeaderHtml = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem">' +
-        '<label style="color:var(--gold);font-size:.9rem;font-weight:600">' + field.label + (field.required ? ' *' : '') + '</label>' +
-        '<div style="display:flex;gap:.3rem">' +
-          '<button class="contact-item-btn edit" onclick="openEditFormField(' + field.id + ')" style="width:28px;height:28px;border-radius:6px;border:none;background:rgba(59,130,246,0.2);color:var(--accent2);cursor:pointer;font-size:.8rem">✏️</button>' +
-          '<button class="contact-item-btn delete" onclick="deleteFormField(' + field.id + ')" style="width:28px;height:28px;border-radius:6px;border:none;background:rgba(239,68,68,0.2);color:#fca5a5;cursor:pointer;font-size:.8rem">🗑️</button>' +
-        '</div>' +
-      '</div>';
+      fieldHeaderHtml = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem"><label style="color:var(--gold);font-size:.9rem;font-weight:600">' + field.label + (field.required ? ' *' : '') + '</label><div style="display:flex;gap:.3rem"><button class="contact-item-btn edit" onclick="openEditFormField(' + field.id + ')" style="width:28px;height:28px;border-radius:6px;border:none;background:rgba(59,130,246,0.2);color:var(--accent2);cursor:pointer;font-size:.8rem">✏️</button><button class="contact-item-btn delete" onclick="deleteFormField(' + field.id + ')" style="width:28px;height:28px;border-radius:6px;border:none;background:rgba(239,68,68,0.2);color:#fca5a5;cursor:pointer;font-size:.8rem">🗑️</button></div></div>';
     }
-    
     return '<div class="contact-form-field-wrapper">' + fieldHeaderHtml + inputHtml + '</div>';
   }).join('');
-  
-  if (state.loggedIn) {
-    formHtml += '<div class="contact-form-add visible" onclick="openEditFormField()">➕ Agregar campo al formulario</div>';
-  }
+  if (state.loggedIn) formHtml += '<div class="contact-form-add visible" onclick="openEditFormField()">➕ Agregar campo al formulario</div>';
   formHtml += '<button type="submit" class="btn btn-primary btn-full">Enviar Mensaje</button>';
   contactForm.innerHTML = formHtml;
 }
@@ -953,7 +1010,6 @@ function openEditContactItem(id) {
   if (!state.loggedIn) { openLogin(); return; }
   document.getElementById('contactItemId').value = id || '';
   document.getElementById('editContactItemTitle').textContent = id ? 'Editar dato de contacto' : 'Nuevo dato de contacto';
-  
   if (id) {
     const item = state.contactItems.find(function(x) { return x.id === id; });
     if (item) {
@@ -966,7 +1022,6 @@ function openEditContactItem(id) {
     document.getElementById('contactItemTitleField').value = '';
     document.getElementById('contactItemContent').value = '';
   }
-  
   document.querySelectorAll('#editContactItemModal .form-error').forEach(function(e) { e.classList.remove('show'); });
   document.getElementById('editContactItemModal').classList.add('active');
 }
@@ -977,46 +1032,32 @@ function saveContactItem(e) {
   e.preventDefault();
   if (!state.loggedIn) return;
   document.querySelectorAll('#editContactItemModal .form-error').forEach(function(e) { e.classList.remove('show'); });
-  
   const id = document.getElementById('contactItemId').value;
   const icon = document.getElementById('contactItemIcon').value.trim() || '';
   const title = document.getElementById('contactItemTitleField').value.trim();
   const content = document.getElementById('contactItemContent').value.trim();
-  
   let hasError = false;
   if (!title) { document.getElementById('errContactItemTitle').classList.add('show'); hasError = true; }
   if (!content) { document.getElementById('errContactItemContent').classList.add('show'); hasError = true; }
   if (hasError) return;
-  
   if (id) {
     const item = state.contactItems.find(function(x) { return x.id === parseInt(id); });
     if (item) { item.icon = icon; item.title = title; item.content = content; }
-  } else {
-    state.contactItems.push({ id: Date.now(), icon: icon, title: title, content: content });
-  }
-  
-  save();
-  renderContactSection();
-  renderAdminContact();
-  closeEditContactItem();
-  toast('✅ Dato de contacto guardado', 'success');
+  } else state.contactItems.push({ id: Date.now(), icon: icon, title: title, content: content });
+  save(); renderContactSection(); renderAdminContact(); closeEditContactItem(); toast('✅ Dato de contacto guardado', 'success');
 }
 
 function deleteContactItem(id) {
   if (!state.loggedIn) { openLogin(); return; }
   if (!confirm('¿Eliminar este dato de contacto?')) return;
   state.contactItems = state.contactItems.filter(function(x) { return x.id !== id; });
-  save();
-  renderContactSection();
-  renderAdminContact();
-  toast('🗑️ Dato eliminado', 'error');
+  save(); renderContactSection(); renderAdminContact(); toast('🗑️ Dato eliminado', 'error');
 }
 
 function openEditFormField(id) {
   if (!state.loggedIn) { openLogin(); return; }
   document.getElementById('formFieldId').value = id || '';
   document.getElementById('editFormFieldTitle').textContent = id ? 'Editar campo del formulario' : 'Nuevo campo del formulario';
-  
   if (id) {
     const field = state.formFields.find(function(x) { return x.id === id; });
     if (field) {
@@ -1033,7 +1074,6 @@ function openEditFormField(id) {
     document.getElementById('formFieldPlaceholder').value = '';
     document.getElementById('formFieldOptions').value = '';
   }
-  
   toggleFormFieldOptions();
   document.querySelectorAll('#editFormFieldModal .form-error').forEach(function(e) { e.classList.remove('show'); });
   document.getElementById('editFormFieldModal').classList.add('active');
@@ -1046,15 +1086,12 @@ function toggleFormFieldOptions() {
   document.getElementById('formFieldOptionsGroup').style.display = type === 'select' ? 'block' : 'none';
 }
 
-document.addEventListener('change', function(e) {
-  if (e.target.id === 'formFieldType') toggleFormFieldOptions();
-});
+document.addEventListener('change', function(e) { if (e.target.id === 'formFieldType') toggleFormFieldOptions(); });
 
 function saveFormField(e) {
   e.preventDefault();
   if (!state.loggedIn) return;
   document.querySelectorAll('#editFormFieldModal .form-error').forEach(function(e) { e.classList.remove('show'); });
-  
   const id = document.getElementById('formFieldId').value;
   const label = document.getElementById('formFieldLabel').value.trim();
   const type = document.getElementById('formFieldType').value;
@@ -1062,34 +1099,19 @@ function saveFormField(e) {
   const placeholder = document.getElementById('formFieldPlaceholder').value.trim();
   const optionsText = document.getElementById('formFieldOptions').value.trim();
   const options = optionsText ? optionsText.split('\n').map(function(o) { return o.trim(); }).filter(function(o) { return o; }) : [];
-  
   if (!label) { document.getElementById('errFormFieldLabel').classList.add('show'); return; }
-  
   if (id) {
     const field = state.formFields.find(function(x) { return x.id === parseInt(id); });
-    if (field) {
-      field.label = label; field.type = type; field.required = required;
-      field.placeholder = placeholder; field.options = options;
-    }
-  } else {
-    state.formFields.push({ id: Date.now(), label: label, type: type, required: required, placeholder: placeholder, options: options });
-  }
-  
-  save();
-  renderContactSection();
-  renderAdminContact();
-  closeEditFormField();
-  toast('✅ Campo del formulario guardado', 'success');
+    if (field) { field.label = label; field.type = type; field.required = required; field.placeholder = placeholder; field.options = options; }
+  } else state.formFields.push({ id: Date.now(), label: label, type: type, required: required, placeholder: placeholder, options: options });
+  save(); renderContactSection(); renderAdminContact(); closeEditFormField(); toast('✅ Campo del formulario guardado', 'success');
 }
 
 function deleteFormField(id) {
   if (!state.loggedIn) { openLogin(); return; }
   if (!confirm('¿Eliminar este campo del formulario?')) return;
   state.formFields = state.formFields.filter(function(x) { return x.id !== id; });
-  save();
-  renderContactSection();
-  renderAdminContact();
-  toast('🗑️ Campo eliminado', 'error');
+  save(); renderContactSection(); renderAdminContact(); toast('🗑️ Campo eliminado', 'error');
 }
 
 function renderAdminContact() {
@@ -1097,7 +1119,6 @@ function renderAdminContact() {
   itemsList.innerHTML = state.contactItems.map(function(item) {
     return '<div class="admin-item"><div class="admin-item-info"><div class="admin-item-title">' + (item.icon || '📌') + ' ' + item.title + '</div><div class="admin-item-meta">' + item.content + '</div></div><div class="admin-item-actions"><button class="btn-icon btn-edit" onclick="openEditContactItem(' + item.id + ')">✏️</button><button class="btn-icon btn-delete" onclick="deleteContactItem(' + item.id + ')">🗑️</button></div></div>';
   }).join('') || '<p style="opacity:.5;text-align:center;padding:1rem">No hay datos de contacto</p>';
-  
   const fieldsList = document.getElementById('adminFormFieldsList');
   fieldsList.innerHTML = state.formFields.map(function(field) {
     return '<div class="admin-item"><div class="admin-item-info"><div class="admin-item-title">' + field.label + (field.required ? ' *' : '') + '</div><div class="admin-item-meta">Tipo: ' + field.type + '</div></div><div class="admin-item-actions"><button class="btn-icon btn-edit" onclick="openEditFormField(' + field.id + ')">✏️</button><button class="btn-icon btn-delete" onclick="deleteFormField(' + field.id + ')">🗑️</button></div></div>';
@@ -1148,9 +1169,7 @@ async function deleteFromSupabase(url) {
 function render() {
   document.getElementById('heroBg').style.backgroundImage = "url('" + state.heroUrl + "')";
   document.getElementById('heroUrl').value = state.heroUrl;
-  
   renderHomeSection();
-  
   var ag = document.getElementById('albumsGrid');
   var albumsHtml = state.albums.map(function(a) {
     var photoCount = (a.photos || []).length;
@@ -1159,17 +1178,13 @@ function render() {
   }).join('');
   if (state.loggedIn) albumsHtml += '<div class="album-add" onclick="openEditAlbum()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg><span>Crear Nuevo Álbum</span></div>';
   ag.innerHTML = albumsHtml;
-  
   var pg = document.getElementById('pagesGrid');
   pg.innerHTML = state.pages.map(function(p) {
     var pc = (p.gallery || []).length;
     var adminClass = state.loggedIn ? 'admin-mode' : '';
     return '<div class="page-card ' + adminClass + '" onclick="handlePageCardClick(event,' + p.id + ')"><button class="page-edit-btn" onclick="event.stopPropagation();openEditPage(' + p.id + ')" title="Editar sección">✏️</button><div class="page-card-icon">' + (p.icon || '') + '</div><h3>' + p.title + '</h3><p>' + (p.desc || '').substring(0, 120) + ((p.desc || '').length > 120 ? '...' : '') + '</p><div class="page-card-photos">📸 ' + pc + ' foto' + (pc !== 1 ? 's' : '') + '</div><div class="page-card-date">' + (p.date || '') + '</div></div>';
   }).join('');
-  
-  renderContactSection();
-  renderAdmin();
-  updateStorageIndicator();
+  renderContactSection(); renderAdmin(); updateStorageIndicator();
 }
 
 function handlePageCardClick(event, id) {
@@ -1181,11 +1196,9 @@ function renderAdmin() {
   document.getElementById('adminAlbumsList').innerHTML = state.albums.map(function(a) {
     return '<div class="admin-item"><div class="admin-item-info"><div class="admin-item-title">🖼️ ' + a.title + '</div><div class="admin-item-meta">' + (a.date || '') + ' · ' + ((a.photos || []).length) + ' fotos</div></div><div class="admin-item-actions"><button class="btn-icon btn-edit" onclick="openEditAlbum(' + a.id + ')">✏️</button><button class="btn-icon btn-delete" onclick="deleteAlbum(' + a.id + ')">🗑️</button></div></div>';
   }).join('') || '<p style="opacity:.5;text-align:center;padding:2rem">No hay álbumes creados</p>';
-  
   document.getElementById('adminPagesList').innerHTML = state.pages.map(function(p) {
     return '<div class="admin-item"><div class="admin-item-info"><div class="admin-item-title">' + (p.icon || '') + ' ' + p.title + '</div><div class="admin-item-meta">' + (p.date || '') + '</div></div><div class="admin-item-actions"><button class="btn-icon btn-edit" onclick="openEditPage(' + p.id + ')">✏️</button><button class="btn-icon btn-delete" onclick="deletePage(' + p.id + ')">🗑️</button></div></div>';
   }).join('') || '<p style="opacity:.5;text-align:center;padding:2rem">No hay secciones</p>';
-  
   renderAdminContact();
 }
 
@@ -1226,15 +1239,19 @@ function handlePhotoClick(event, albumId, photoId) {
   else openAlbumLightbox(albumId, photoId);
 }
 
-function confirmDeletePhoto(albumId, photoId) {
-  var album = state.albums.find(function(a) { return a.id === albumId; });
+async function confirmDeletePhoto(albumId, photoId) {
+  var album = state.albums.find(a => a.id === albumId);
   if (!album) return;
-  var photo = album.photos.find(function(p) { return p.id === photoId; });
+  var photo = album.photos.find(p => p.id === photoId);
   if (!photo) return;
-  if (confirm('¿Eliminar la foto "' + photo.title + '" de este álbum?\n\nEsta acción no se puede deshacer.')) {
-    album.photos = album.photos.filter(function(p) { return p.id !== photoId; });
-    if (SUPABASE_ENABLED && photo.url && photo.url.includes('supabase.co')) deleteFromSupabase(photo.url);
-    save(); openAlbumDetail(albumId); toast('🗑️ Foto eliminada correctamente', 'success');
+  
+  if (confirm('¿Eliminar la foto "' + photo.title + '"?\n\nEsta acción no se puede deshacer.')) {
+    if (SUPABASE_DB_ENABLED) await deletePhotoFromDB(photoId);
+    if (supabaseClient && photo.url && photo.url.includes('supabase.co')) deleteFromSupabase(photo.url);
+    album.photos = album.photos.filter(p => p.id !== photoId);
+    save(); 
+    openAlbumDetail(albumId); 
+    toast('🗑️ Foto eliminada', 'success');
   }
 }
 
@@ -1351,31 +1368,67 @@ function clearAlbumCoverPreview() {
   }
 }
 
-function saveAlbum(e) {
+async function saveAlbum(e) {
   e.preventDefault(); hideAllErrors();
   var id = document.getElementById('editAlbumId').value;
   var title = document.getElementById('albumField1').value.trim();
   var desc = document.getElementById('albumField2').value.trim();
   var url = document.getElementById('albumField3').value.trim();
   var date = document.getElementById('albumField4').value.trim();
+  
+  if (state.pendingImage) url = state.pendingImage;
+  
   var hasError = false;
   if (!title) { document.getElementById('errAlbumTitle').classList.add('show'); hasError = true; }
-  if (state.pendingImage) url = state.pendingImage;
   if (!url && !id) { document.getElementById('errAlbumCover').classList.add('show'); hasError = true; }
   if (hasError) { toast('Revisá los campos marcados', 'error'); return; }
-  var btn = document.getElementById('btnSaveAlbum'); btn.textContent = '⏳ Guardando...'; btn.disabled = true;
-  setTimeout(function() {
+  
+  var btn = document.getElementById('btnSaveAlbum'); 
+  btn.textContent = '⏳ Guardando...'; 
+  btn.disabled = true;
+  
+  const albumData = {
+    id: id ? parseInt(id) : null,
+    title: title,
+    desc: desc,
+    url: url || state.originalUrl,
+    date: date,
+    photos: []
+  };
+  
+  const dbSaved = await saveAlbumToDB(albumData);
+  
+  if (dbSaved) {
     if (id) {
-      var album = state.albums.find(function(a) { return a.id === parseInt(id); });
-      if (album) { album.title = title; album.desc = desc; if (url) album.url = url; else if (state.originalUrl) album.url = state.originalUrl; album.date = date; }
-    } else state.albums.push({ id: Date.now(), title: title, desc: desc, url: url, date: date, photos: [] });
-    if (save()) { render(); closeEditAlbum(); toast('✅ Álbum guardado', 'success'); }
-    else { btn.textContent = '💾 Guardar Álbum'; btn.disabled = false; }
-  }, 300);
+      const idx = state.albums.findIndex(a => a.id === parseInt(id));
+      if (idx >= 0) {
+        albumData.photos = state.albums[idx].photos;
+        state.albums[idx] = albumData;
+      }
+    } else {
+      state.albums.push(albumData);
+    }
+    save();
+    render(); 
+    closeEditAlbum(); 
+    toast('✅ Álbum guardado en la nube', 'success');
+  } else {
+    if (id) {
+      const album = state.albums.find(a => a.id === parseInt(id));
+      if (album) { album.title = title; album.desc = desc; if (url) album.url = url; album.date = date; }
+    } else {
+      state.albums.push({ id: Date.now(), title, desc, url: url || state.originalUrl, date, photos: [] });
+    }
+    save();
+    render();
+    closeEditAlbum();
+    toast('✅ Álbum guardado (local)', 'success');
+  }
 }
 
-function deleteAlbum(id) {
+async function deleteAlbum(id) {
   if (!confirm('¿Eliminar este álbum y todas sus fotos?\n\nEsta acción no se puede deshacer.')) return;
+  if (SUPABASE_DB_ENABLED) await deleteAlbumFromDB(id);
   state.albums = state.albums.filter(function(a) { return a.id !== id; });
   save(); render(); toast('Álbum eliminado', 'error');
 }
@@ -1559,30 +1612,31 @@ async function saveMultiPhotos() {
     for (var i = 0; i < state.multiFiles.length; i++) {
       var f = state.multiFiles[i];
       var photoUrl = null;
-      if (SUPABASE_ENABLED && f.blob) {
+      if (supabaseClient && f.blob) {
         try {
           var folder = state.currentAlbumId ? 'albums/' + state.currentAlbumId : 'albums/general';
           photoUrl = await uploadToSupabase(f.blob, folder);
-          console.log('✅ Foto subida:', photoUrl);
+          console.log('✅ Foto subida a Storage:', photoUrl);
         } catch(uploadErr) {
           console.error('❌ Error subiendo:', uploadErr);
           toast('⚠️ Error subiendo "' + f.name + '"', 'error');
           failed++;
           continue;
         }
-      } else {
-        console.error('❌ Supabase no configurado');
-        toast('⚠️ Configurá Supabase primero', 'error');
-        failed++;
-        continue;
       }
-      if (photoUrl && !photoUrl.startsWith('blob:')) {
-        var photoData = { id: Date.now() + added, title: f.name.replace(/\.[^/.]+$/, ''), url: photoUrl, date: date };
+      if (photoUrl) {
+        var photoData = { id: null, title: f.name.replace(/\.[^/.]+$/, ''), url: photoUrl, date: date };
+        if (SUPABASE_DB_ENABLED && state.currentAlbumId) {
+          const dbSaved = await savePhotoToDB(photoData, state.currentAlbumId);
+          if (dbSaved) console.log('✅ Foto registrada en DB');
+        }
         if (state.currentAlbumId) {
-          var album = state.albums.find(function(a) { return a.id === state.currentAlbumId; });
-          if (album) { if (!album.photos) album.photos = []; album.photos.push(photoData); }
-        } else {
-          state.albums.push({ id: Date.now() + added + 10000, title: f.name.replace(/\.[^/.]+$/, ''), desc: '', url: photoUrl, date: date, photos: [] });
+          var album = state.albums.find(a => a.id === state.currentAlbumId);
+          if (album) { 
+            if (!album.photos) album.photos = []; 
+            photoData.id = photoData.id || Date.now() + added;
+            album.photos.push(photoData); 
+          }
         }
         added++;
       } else { failed++; }
